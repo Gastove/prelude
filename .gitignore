@@ -30,3 +30,6 @@ tramp
 /ac-comphist.dat
 /.python-environments/
 !*.org
+/personal/customize.el
+/personal/init.el
+/ensime/
