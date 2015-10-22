@@ -395,8 +395,12 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
 *** Projectile
 #+BEGIN_SRC emacs-lisp
 ;;; Projectile
-(setq projectile-remember-window-configs t)
-(setq projectile-switch-project-action 'projectile-dired)
+(setq projectile-remember-window-configs t
+        projectile-switch-project-action 'projectile-dired
+
+        ;; https://github.com/bbatsov/projectile/issues/523
+        projectile-mode-line " Projectile")
+
 (persp-mode)
 (require 'persp-projectile)
 (define-key projectile-mode-map (kbd "C-c p p") 'projectile-persp-switch-project)
