@@ -427,7 +427,9 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
     ;; shortcuts. Let's fix that.
     (defun org-bindings ()
       (define-key prelude-mode-map (kbd "C-c /") 'org-sparse-tree)
-      (define-key prelude-mode-map [(control shift return)] 'org-insert-todo-heading-respect-content))
+      (define-key prelude-mode-map [(control shift return)] 'org-insert-todo-heading-respect-content)
+      (define-key prelude-mode-map (kbd "M-S-<up>") 'org-move-subtree-up)
+      (define-key prelude-mode-map (kbd "M-S-<down>") 'org-move-subtree-down))
 
     ;; Make sure auto-fill-mode is on. Pretty much always need it.
     (add-hook 'org-mode-hook
@@ -506,7 +508,6 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
 
     ;; org-mime for composing emails
     (require 'org-mime)
-
 #+END_SRC
 
 #+RESULTS:
@@ -904,8 +905,10 @@ Assumes you're on a Mac, and have Marked.app installed.
     ;; (load "~/.ercpass")
     (erc-tls :server "dev.urbanairship.com"
              :port 6697
-             :nick erc-nick
-             ))
+             :nick erc-nick))
+
+  ;;; LookML
+  (add-to-list 'auto-mode-alist '("\\.lookml$" . yaml-mode))
 
   ;;; Work SQL Functions
   ;; Generate a list of DBs I connect to commonly
