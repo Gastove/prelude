@@ -16,7 +16,6 @@ ede-projects.el
 places
 .smex-items
 savefile/*
-!savefile/bookmarks
 # I wanna keep this, too
 # /prelude-modules.el
 projectile-bookmarks.eld
