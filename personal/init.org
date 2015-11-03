@@ -408,7 +408,9 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
 
 *** Bookmark+
 #+BEGIN_SRC emacs-lisp
-(require 'bookmark+)
+  (require 'bookmark+)
+  (setq bookmark-default-file "~/Dropbox/emacs/gifs.bmk"
+        bmkp-last-as-first-bookmark-file nil)
 #+END_SRC
 
 *** ERC
