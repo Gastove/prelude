@@ -488,6 +488,7 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
      (sh . t)
      (R . t)
      (scala . t)
+     (scheme . t)
      (sql . t)))
 
   ;; Smartparens pairs!
@@ -506,29 +507,30 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
           deck
           html))
 
+  ;; Org Togglings
   ;; Export defaults: no table of contents, no numbered headers, don't convert ^
   ;; or _ to superscripts
   (setq org-export-with-section-numbers nil
         org-export-with-sub-superscripts nil
-        org-export-with-toc nil)
+        org-export-with-toc nil
 
-  ;; Refiling defaults
-  (setq org-refile-targets '((org-agenda-files :maxlevel . 5))
-        org-refile-allow-creating-parent-nodes 'confirm)
+        ;; Refiling defaults
+        org-refile-targets '((org-agenda-files :maxlevel . 5))
+        org-refile-allow-creating-parent-nodes 'confirm
 
-  ;; (add-hook 'org-mode-hook 'org-bindings)
+        org-agenda-text-search-extra-files "agenda-archives"
 
-  ;; Hide org emphasis marks
-  (setq org-hide-emphasis-markers t)
+        ;; Hide org emphasis marks
+        org-hide-emphasis-markers t
 
-  ;; Start indented
-  (setq org-startup-indented t)
+        ;; Start indented
+        org-startup-indented t
 
-  ;; Stop folding. Just... stop.
-  (setq org-startup-folded t)
+        ;; Stop folding. Just... stop.
+        org-startup-folded t
 
-  ;; Fontify inside code blocks
-  (setq org-src-fontify-natively t)
+        ;; Fontify inside code blocks
+        org-src-fontify-natively t)
 
   ;; org-mime for composing emails
   (require 'org-mime)
