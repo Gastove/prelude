@@ -55,6 +55,7 @@ Pretty neat, hey?
                               pcre2el
                               persp-projectile
                               perspective
+                              pretty-lambdada
                               protobuf-mode
                               rich-minority
                               sauron
@@ -105,9 +106,13 @@ Tweaks and modifications to Emacs' core UI.
 *** Fonts
 Unicode fonts -- because they are Very Good.
 #+BEGIN_SRC emacs-lisp
-(unicode-fonts-setup)
+  (unicode-fonts-setup)
 #+END_SRC
 
+Font lock the word ~lambda~ to /display/ as λ
+#+BEGIN_SRC emacs-lisp
+  (global-pretty-lambda-mode)
+#+END_SRC
 *** Smart Mode Line
 #+BEGIN_SRC emacs-lisp
   (sml/setup)
