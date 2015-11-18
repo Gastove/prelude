@@ -109,7 +109,7 @@ Unicode fonts -- because they are Very Good.
   (unicode-fonts-setup)
 #+END_SRC
 
-Font lock the word ~lambda~ to /display/ as λ
+Font lock the word ~lambda~ to /display/ as λ (font lock only, doesn't change text)
 #+BEGIN_SRC emacs-lisp
   (global-pretty-lambda-mode)
 #+END_SRC
