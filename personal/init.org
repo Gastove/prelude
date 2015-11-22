@@ -57,7 +57,6 @@ Pretty neat, hey?
                               pcre2el
                               persp-projectile
                               perspective
-                              pretty-lambdada
                               protobuf-mode
                               rich-minority
                               sauron
@@ -113,7 +112,7 @@ Unicode fonts -- because they are Very Good.
 
 Font lock the word ~lambda~ to /display/ as λ (font lock only, doesn't change text)
 #+BEGIN_SRC emacs-lisp
-  (global-pretty-lambda-mode)
+  (global-prettify-symbols-mode 1)
 #+END_SRC
 *** Smart Mode Line
 #+BEGIN_SRC emacs-lisp
@@ -176,6 +175,15 @@ Font lock the word ~lambda~ to /display/ as λ (font lock only, doesn't change t
 
 * Languages
 
+** Scheme
+General tweaks for Scheme mode, mostly for Racket
+
+Prettify lambdas
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'scheme-mode-hook
+            (lambda ()
+              (push '("lambda" . ?λ) prettify-symbols-alist)))
+#+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
 ;;; Go Configs
