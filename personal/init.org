@@ -173,6 +173,16 @@ Font lock the word ~lambda~ to /display/ as λ (font lock only, doesn't change t
 
 #+RESULTS:
 
+*** Bell
+Hate that stupid bell sound. Let's do a visual bell instead.
+#+BEGIN_SRC emacs-lisp
+  (defun gastove/visible-bell ()
+    (invert-face 'mode-line)
+    (run-with-timer 0.1 nil 'invert-face 'mode-line))
+
+  (setq ring-bell-function #'ignore)
+  (setq visible-bell nil ring-bell-function 'gastove/visible-bell)
+#+END_SRC
 * Languages
 
 ** Scheme
