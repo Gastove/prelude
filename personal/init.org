@@ -543,7 +543,7 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
         org-refile-targets '((org-agenda-files :maxlevel . 5))
         org-refile-allow-creating-parent-nodes 'confirm
 
-        org-agenda-text-search-extra-files "agenda-archives"
+        org-agenda-text-search-extra-files '(agenda-archives)
 
         ;; Hide org emphasis marks
         org-hide-emphasis-markers t
