@@ -174,7 +174,9 @@ Font lock the word ~lambda~ to /display/ as λ (font lock only, doesn't change t
 
 #+RESULTS:
 
-*** Bell
+*** Alerts
+
+**** Bell
 Hate that stupid bell sound. Let's do a visual bell instead.
 #+BEGIN_SRC emacs-lisp
   (defun gastove/visible-bell ()
@@ -184,6 +186,7 @@ Hate that stupid bell sound. Let's do a visual bell instead.
   (setq ring-bell-function #'ignore)
   (setq visible-bell nil ring-bell-function 'gastove/visible-bell)
 #+END_SRC
+
 *** Windows
 Default to a vertical window split
 
@@ -192,6 +195,14 @@ This approach is... too much. Arg.
   ;; (setq split-width-threshold 0)
   ;; (setq split-height-threshold nil)
 #+END_SRC
+
+*** Beacon
+Help me find my place by flaring the beacon when I multi-task back to Emacs.
+
+#+BEGIN_SRC emacs-lisp
+  (setq beacon-blink-when-focused t)
+#+END_SRC
+
 * Languages
 
 ** Scheme
