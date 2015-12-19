@@ -97,6 +97,7 @@ Pretty neat, hey?
 #+BEGIN_SRC emacs-lisp
   (require 'dired+)
   (setq diredp-hide-details-initially-flag nil)
+  (global-dired-hide-details-mode -1)
 #+END_SRC
 
 #+RESULTS:
@@ -182,6 +183,14 @@ Hate that stupid bell sound. Let's do a visual bell instead.
 
   (setq ring-bell-function #'ignore)
   (setq visible-bell nil ring-bell-function 'gastove/visible-bell)
+#+END_SRC
+*** Windows
+Default to a vertical window split
+
+This approach is... too much. Arg.
+#+BEGIN_SRC emacs-lisp
+  ;; (setq split-width-threshold 0)
+  ;; (setq split-height-threshold nil)
 #+END_SRC
 * Languages
 
@@ -496,6 +505,7 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
   ;; Jump and Sparse-Tree contexts
   (push  '(org-goto . local) org-show-context-detail)
   (push '(tags-tree . local) org-show-context-detail)
+
   ;; Support for Babel Mode code blocks
   ;; NOTE: requires the addition of the org elpa repo!
   (org-babel-do-load-languages
