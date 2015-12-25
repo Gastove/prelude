@@ -635,6 +635,12 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
         ;; allow for updating mail using 'U' in the main view:
         mu4e-get-mail-command "offlineimap"
 
+        ;; don't include me in reply-alls
+        mu4e-compose-dont-reply-to-self t
+
+        ;; change the way replies get cited
+        ;; mu4e-compose-cite-function (lambda () nil)
+
         ;; Make mu4e the default user agent
         mail-user-agent 'mu4e-user-agent
 
@@ -657,16 +663,14 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
 
         ;; If the same email is in two different folders, don't show it twice
         ;; in search results
-        mu4e-headers-skip-duplicates t)
+        mu4e-headers-skip-duplicates t
 
-
-  ;; show images. unclear if this works.
-  (setq mu4e-show-images t)
+        ;; show images. should work; doesn't seem to
+         mu4e-view-show-images t)
 
   ;; use imagemagick, if available
   (when (fboundp 'imagemagick-register-types)
     (imagemagick-register-types))
-
 
   ;; Get a view of unread messages by maildir in the summary view
   (mu4e-maildirs-extension)
