@@ -37,6 +37,7 @@ Pretty neat, hey?
                               company-jedi
                               company-tern
                               dired+
+                              editorconfig
                               elpy
                               emoji-cheat-sheet-plus
                               ensime
@@ -763,6 +764,46 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
   (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
 #+END_SRC
 
+*** Flycheck
+YAY CUSTOM CHECKERS oh fucking boy
+
+#+BEGIN_SRC emacs-lisp
+  (eval-after-load "flycheck"
+    '(progn
+       (flycheck-def-config-file-var javascript-builderrc javascript-builder nil
+         :safe #'stringp
+         :package-version '(flycheck . "0.20"))
+
+       (flycheck-define-checker javascript-builder
+         "Here is a doctstring ARE YOU HAPPY NOW"
+         :command ("builder"
+                   (config-file "--builderrc" javascript-builderrc)
+                   "run" "lint" source-original)
+         :standard-input t
+         :error-parser flycheck-parse-checkstyle
+         ;; Cribbed shamelessly from the definition of javascript-eslint
+         :error-filter (lambda (errors)
+                         (seq-do (lambda (err)
+                                   ;; Parse error ID from the error message
+                                   (setf (flycheck-error-message err)
+                                         (replace-regexp-in-string
+                                          (rx " ("
+                                              (group (one-or-more (not (any ")"))))
+                                              ")" string-end)
+                                          (lambda (s)
+                                            (setf (flycheck-error-id err)
+                                                  (match-string 1 s))
+                                            "")
+                                          (flycheck-error-message err))))
+                                 (flycheck-sanitize-errors errors))
+                         errors)
+         :modes (js-mode js-jsx-mode js2-mode js2-jsx-mode js3-mode web-mode)
+         :next-checkers ((warning . javascript-jscs)))
+
+       ;; Enable the checker
+       (add-to-list 'flycheck-checkers 'javascript-builder)
+       (flycheck-add-mode 'javascript-builder 'web-mode)))
+#+END_SRC
 *** ESS
 #+BEGIN_SRC emacs-lisp
 (require 'ess-site)
@@ -853,6 +894,11 @@ A handy little utility for interacting with Pandoc.
              (string-match "^[[:digit:]]* new tweets" msg))))
 #+END_SRC
 
+*** Editorconfig
+#+BEGIN_SRC emacs-lisp
+  (when (executable-find "editorconfig")
+    (editorconfig-mode 1))
+#+END_SRC
 *** GGTags
 Provides considerably better definition lookup in a lot of languages; p. good
 for the Jabbas, Shell, and a bunch of things I don't have to read like C.
