@@ -643,11 +643,10 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
 
         ;; If the same email is in two different folders, don't show it twice
         ;; in search results
-        mu4e-headers-skip-duplicates t)
+        mu4e-headers-skip-duplicates t
 
-
-  ;; show images. unclear if this works.
-  (setq mu4e-show-images t)
+        ;; Show images inline
+        mu4e-view-show-images t)
 
   ;; use imagemagick, if available
   (when (fboundp 'imagemagick-register-types)
