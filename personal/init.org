@@ -97,6 +97,7 @@ Pretty neat, hey?
 #+BEGIN_SRC emacs-lisp
   (require 'dired+)
   (setq diredp-hide-details-initially-flag nil)
+  (global-dired-hide-details-mode -1)
 #+END_SRC
 
 #+RESULTS:
@@ -186,10 +187,22 @@ Hate that stupid bell sound. Let's do a visual bell instead.
   (setq visible-bell nil ring-bell-function 'gastove/visible-bell)
 #+END_SRC
 
-**** Beacon
+*** Windows
+Default to a vertical window split
+
+This approach is... too much. Arg.
+#+BEGIN_SRC emacs-lisp
+  ;; (setq split-width-threshold 0)
+  ;; (setq split-height-threshold nil)
+#+END_SRC
+
+*** Beacon
+Help me find my place by flaring the beacon when I multi-task back to Emacs.
+
 #+BEGIN_SRC emacs-lisp
   (setq beacon-blink-when-focused t)
 #+END_SRC
+
 * Languages
 
 ** Scheme
@@ -503,6 +516,7 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
   ;; Jump and Sparse-Tree contexts
   (push  '(org-goto . local) org-show-context-detail)
   (push '(tags-tree . local) org-show-context-detail)
+
   ;; Support for Babel Mode code blocks
   ;; NOTE: requires the addition of the org elpa repo!
   (org-babel-do-load-languages
@@ -941,63 +955,9 @@ Assumes you're on a Mac, and have Marked.app installed.
 
 * Work
 #+BEGIN_SRC emacs-lisp
-  ;;; work.el -- All my work configs in one place.
-
-  ;;; Code:
-  ;; Work IRC
-  (defun start-irc-work ()
-    "Connect to the UA IRC Server"
-    (interactive)
-    (add-to-list 'erc-autojoin-channels-alist '("dev.urbanairship.com" "#ops"))
-    ;; (load "~/.ercpass")
-    (erc-tls :server "dev.urbanairship.com"
-             :port 6697
-             :nick erc-nick))
-
-  ;;; LookML
-  (add-to-list 'auto-mode-alist '("\\.lookml$" . yaml-mode))
-
-  ;;; Work SQL Functions
-  ;; Generate a list of DBs I connect to commonly
-  (when (file-exists-p (expand-file-name "~/.emacs-dbs"))
-    (load "~/.emacs-dbs")
-    (setq sql-connection-alist
-          '((yavin
-             (sql-product 'postgres)
-             (sql-server yavin-server)
-             (sql-user yavin-user)
-             (sql-password yavin-password)
-             (sql-database "yavin"))
-            (wildwood
-             (sql-product 'postgres)
-             (sql-server wildwood-server)
-             (sql-user wildwood-user)
-             (sql-port wildwood-port)
-             (sql-database "wildwood")
-             (sql-password wildwood-password)))))
-
-  (defun sql-connect-preset (name)
-    "Connect to a predefined SQL connection listed in `sql-connection-alist'"
-    (eval `(let ,(cdr (assoc name sql-connection-alist))
-             (flet ((sql-get-login (&rest what)))
-               (sql-product-interactive sql-product)))))
-
-  ;; Function to load a DB based on its short name
-  (defun sql-connect-preset-by-name (name)
-    "Connect to a DB by entering it's short name"
-    (interactive "sDB Name: ")
-    (sql-connect-preset 'name))
-
-  (defun sql-yavin ()
-    (interactive)
-    (sql-connect-preset 'yavin))
-
-  (defun sql-wildwood ()
-    (interactive)
-    (let ((default-directory "/ssh:wildwood:"))
-      (sql-connect-preset 'wildwood)))
-
-  (global-set-key (kbd "M-s q") 'sql-connect-preset-by-name) ; Connect to a db preset by nameq
+  (let ((work-configs (expand-file-name ".work.el" (getenv "HOME"))))
+   (when (file-exists-p work-configs)
+     (load-file work-configs)))
 #+END_SRC
 
 #+RESULTS:
