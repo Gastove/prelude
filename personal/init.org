@@ -638,8 +638,8 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
         ;; Make mu4e the default user agent
         mail-user-agent 'mu4e-user-agent
 
-        ;; fetch mail every 10 mins
-        mu4e-update-interval 600
+        ;; fetch mail every 5 mins
+        mu4e-update-interval 300
 
         ;; Name, main email address
         user-mail-address "gastove@gmail.com"
