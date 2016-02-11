@@ -832,21 +832,25 @@ A handy little utility for interacting with Pandoc.
 
 *** Sauron
 #+BEGIN_SRC emacs-lisp
-(require 'sauron)
-;; 1: On OSX, there's no dbus, so don't try to load it.
-;; 2: On Ubuntu, there _is_ dbus, so use it to get mu new mail updates from cron
-(if (eq system-type 'darwin)
-    (setq sauron-modules '(sauron-jabber sauron-erc sauron-org sauron-twittering sauron-notifications))
-  (setq sauron-dbus-cookie 1))
+  (require 'sauron)
+  ;; 1: On OSX, there's no dbus, so don't try to load it.
+  ;; 2: On Ubuntu, there _is_ dbus, so use it to get mu new mail updates from cron
+  (if (eq system-type 'darwin)
+      (setq sauron-modules '(sauron-jabber sauron-erc sauron-org sauron-twittering sauron-notifications))
+    (setq sauron-dbus-cookie 1))
 
-(setq sauron-separate-frame nil
-      sauron-nick-insensitivity 300)
+  (setq sauron-separate-frame nil
+        sauron-nick-insensitivity 300)
 
-(add-hook 'sauron-event-block-functions
-          (lambda (origin prio msg &optional props)
-            (and
-             (eq 'twittering origin)
-             (string-match "^[[:digit:]]* new tweets" msg))))
+  (add-hook 'sauron-event-block-functions
+            (lambda (origin prio msg &optional props)
+              (and
+               (eq 'twittering origin)
+               (string-match "^[[:digit:]]* new tweets" msg))))
+
+  ;; Turn on sauron on emacs start
+  (sauron-start-hidden)
+  (define-key prelude-mode-map (kbd "C-M-?") 'sauron-toggle-hide-show)
 #+END_SRC
 
 *** GGTags
