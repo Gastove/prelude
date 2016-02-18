@@ -660,7 +660,10 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
         mu4e-headers-skip-duplicates t
 
         ;; Show images inline
-        mu4e-view-show-images t)
+        mu4e-view-show-images t
+
+        ;; Silence the damn minibuffer updates
+        mu4e-hide-index-messages t)
 
   ;; use imagemagick, if available
   (when (fboundp 'imagemagick-register-types)
