@@ -342,9 +342,9 @@ him yet :P
    python-shell-completion-string-code
    "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
 
-  (elpy-enable)                   ;
+  (elpy-enable)
   ;; Enable virtualenvwrapper.el
-  ;; (venv-initialize-interactive-shells)    ;
+  ;; (venv-initialize-interactive-shells)
   ;; (setq venv-location "~/.python_virtualenvs/")
 
   ;; Not sure I dig Jedi at the moment. Can't figure out how to get it
@@ -362,7 +362,7 @@ him yet :P
   ;;             (setq jedi:complete-on-dot t)
   ;;             (add-to-list 'company-backends 'company-jedi)))
 
-  ;; ;; ;; Virtualenvs
+  ;; Virtualenvs
   ;; (add-hook 'python-mode-hook
   ;;           (lambda ()
   ;;             (hack-local-variables)
