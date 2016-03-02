@@ -104,9 +104,16 @@ Pretty neat, hey?
 #+RESULTS:
 
 ** Emacs
-Tweaks and modifications to Emacs' core UI.
+Tweaks and modifications to Emacs' core behavior.
 
+*** Server Start
+When emacs loads, start the emacs server so clients can connect.
+#+BEGIN_SRC emacs-lisp
+  (server-start)
+#+END_SRC
 *** Fonts
+
+***
 Unicode fonts -- because they are Very Good.
 #+BEGIN_SRC emacs-lisp
   (unicode-fonts-setup)
@@ -343,9 +350,9 @@ him yet :P
    python-shell-completion-string-code
    "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
 
-  (elpy-enable)                   ;
+  (elpy-enable)
   ;; Enable virtualenvwrapper.el
-  ;; (venv-initialize-interactive-shells)    ;
+  ;; (venv-initialize-interactive-shells)
   ;; (setq venv-location "~/.python_virtualenvs/")
 
   ;; Not sure I dig Jedi at the moment. Can't figure out how to get it
@@ -363,7 +370,7 @@ him yet :P
   ;;             (setq jedi:complete-on-dot t)
   ;;             (add-to-list 'company-backends 'company-jedi)))
 
-  ;; ;; ;; Virtualenvs
+  ;; Virtualenvs
   ;; (add-hook 'python-mode-hook
   ;;           (lambda ()
   ;;             (hack-local-variables)
@@ -554,6 +561,9 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
         org-export-with-sub-superscripts nil
         org-export-with-toc nil
 
+        ;; Don't ask before src block eval
+        org-confirm-babel-evaluate nil
+
         ;; Refiling defaults
         org-refile-targets '((org-agenda-files :maxlevel . 5))
         org-refile-allow-creating-parent-nodes 'confirm
@@ -608,160 +618,161 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
 #+END_SRC
 *** mu4e
 #+BEGIN_SRC emacs-lisp
-  ;;; mu4e-configs.el --- My mu4e configs
-  ;;
-  ;; Reference:
-  ;; http://kirang.in/2014/11/13/emacs-as-email-client-with-offlineimap-and-mu4e-on-osx/
+    ;;; mu4e-configs.el --- My mu4e configs
+    ;;
+    ;; Reference:
+    ;; http://kirang.in/2014/11/13/emacs-as-email-client-with-offlineimap-and-mu4e-on-osx/
 
-  ;; Re-enable C-x m for email (nerfs eshell, which I never use)
-  (global-set-key (kbd "C-x m") 'compose-mail)
+    ;; Re-enable C-x m for email (nerfs eshell, which I never use)
+    (global-set-key (kbd "C-x m") 'compose-mail)
 
-  ;; Load mu4e
-  (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+    ;; Load mu4e
+    (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 
-  ;; Requirements and setup
-  (require 'mu4e)
-  (require 'mu4e-maildirs-extension) ;; Get a maildirs view in the mu4e-summary
-  (require 'mu4e-contrib) ;; For nicely formatted HTML emails
-  (require 'org-mu4e)    ;; Save mu4e messages as org links
+    ;; Requirements and setup
+    (require 'mu4e)
+    (require 'mu4e-maildirs-extension) ;; Get a maildirs view in the mu4e-summary
+    (require 'mu4e-contrib) ;; For nicely formatted HTML emails
+    (require 'org-mu4e)    ;; Save mu4e messages as org links
 
-  ;; Basic mu4e configuration
-  (setq mu4e-maildir "~/.Mail"
-        mu4e-drafts-folder "/gastove@gmail.com/[Gmail].Drafts"
-        mu4e-sent-folder   "/gastove@gmail.com/[Gmail].Sent Mail"
+    ;; Basic mu4e configuration
+    (setq mu4e-maildir "~/.Mail"
+          mu4e-drafts-folder "/gastove@gmail.com/[Gmail].Drafts"
+          mu4e-sent-folder   "/gastove@gmail.com/[Gmail].Sent Mail"
 
-        ;; don't save message to Sent Messages, Gmail/IMAP/Offlineimap takes care of this
-        mu4e-sent-messages-behavior 'delete
+          ;; don't save message to Sent Messages, Gmail/IMAP/Offlineimap takes care of this
+          mu4e-sent-messages-behavior 'delete
 
-        ;; allow for updating mail using 'U' in the main view:
-        mu4e-get-mail-command "offlineimap"
+          ;; Let offlineimap's autorefresh handle getting new mail, but automatically re-index:
+          mu4e-get-mail-command "true"
 
-        ;; don't include me in reply-alls
-        mu4e-compose-dont-reply-to-self t
+          ;; Make mu4e the default user agent
+          mail-user-agent 'mu4e-user-agent
 
-        ;; change the way replies get cited
-        ;; mu4e-compose-cite-function (lambda () nil)
+          ;; fetch mail every 5 mins
+          mu4e-update-interval 300
 
-        ;; Make mu4e the default user agent
-        mail-user-agent 'mu4e-user-agent
+          ;; Name, main email address
+          user-mail-address "gastove@gmail.com"
+          user-full-name  "Ross Donaldson"
 
-        ;; fetch mail every 10 mins
-        mu4e-update-interval 600
+          ;; Signature
+          mu4e-compose-signature (concat "Cheers,\n"
+                                         "Ross\n")
 
-        ;; Name, main email address
-        user-mail-address "gastove@gmail.com"
-        user-full-name  "Ross Donaldson"
+          ;; ISO date format for headers
+          mu4e-headers-date-format "%Y-%m-%d"
 
-        ;; Signature
-        mu4e-compose-signature (concat "Cheers,\n"
-                                       "Ross\n")
+          ;; Convert HTML emails to nicely readable text
+          mu4e-html2text-command 'mu4e-shr2text
 
-        ;; ISO date format for headers
-        mu4e-headers-date-format "%Y-%m-%d"
+          ;; If the same email is in two different folders, don't show it twice
+          ;; in search results
+          mu4e-headers-skip-duplicates t
 
-        ;; Convert HTML emails to nicely readable text
-        mu4e-html2text-command 'mu4e-shr2text
+          ;; Show images inline
+          mu4e-view-show-images t
 
-        ;; If the same email is in two different folders, don't show it twice
-        ;; in search results
-        mu4e-headers-skip-duplicates t
+          ;; Silence the damn minibuffer updates
+          mu4e-hide-index-messages t
 
-        ;; show images. should work; doesn't seem to
-         mu4e-view-show-images t)
+          ;; Filter autocomplete addresses more intelligently
+          mu4e-compose-complete-only-after "2013-01-01")
 
-  ;; use imagemagick, if available
-  (when (fboundp 'imagemagick-register-types)
-    (imagemagick-register-types))
-
-  ;; Get a view of unread messages by maildir in the summary view
-  (mu4e-maildirs-extension)
-
-  ;; add option to view html message in a browser
-  ;; `aV` in view to activate
-  (add-to-list 'mu4e-view-actions
-               '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+    ;; use imagemagick, if available
+    (when (fboundp 'imagemagick-register-types)
+      (imagemagick-register-types))
 
 
+    ;; Get a view of unread messages by maildir in the summary view
+    (mu4e-maildirs-extension)
 
-  ;; configuration for sending mail
-  (setq message-send-mail-function
-        ;; Send via postfix
-        'sendmail-send-it
-
-        ;; By default, the gnus composer (which mu4e uses also) doesn't correctly
-        ;; write FROM headers. Let's fix that. (Required to correctly dispatch to
-        ;; multiple sending accounts with postfix.)
-        mail-specify-envelope-from t
-        mail-envelope-from 'header)
-
-  ;; Message Composition settings
-  (add-hook 'mu4e-compose-mode-hook
-            (lambda ()
-              (auto-fill-mode -1)
-              (whitespace-mode -1)))
-
-  ;; The mu4e interface
-  ;; Single-character shortcuts
-  (setq mu4e-maildir-shortcuts
-        '(("/gastove@gmail.com/INBOX"               . ?i)
-          ("/gastove@gmail.com/[Gmail].Important"   . ?I)
-          ("/gastove@gmail.com/[Gmail].Sent Mail"   . ?s)))
+    ;; add option to view html message in a browser
+    ;; `aV` in view to activate
+    (add-to-list 'mu4e-view-actions
+                 '("ViewInBrowser" . mu4e-action-view-in-browser) t)
 
 
-  ;; Tweak bookmarked queries
-  (add-to-list 'mu4e-bookmarks `(,(string-join
-                                   '("flag:unread"
-                                     "AND date:today..now"
-                                     "NOT maildir:/ross@urbanairship.com/Githubs"
-                                     "NOT maildir:'/ross@urbanairship.com/Sales Deals'"
-                                     "AND m:/ross@urbanairship.com/INBOX")
-                                   " ")
-                                 "Today's work unreads" ?i))
-  (add-to-list 'mu4e-bookmarks `(,(string-join
-                                   '("flag:unread"
-                                     "AND m:/gastove@gmail.com/INBOX"
-                                     "AND date:today..now")
-                                   " ") "Today's Personal Unreads" ?h))
-  (add-to-list 'mu4e-bookmarks `(,(string-join
-                                   '("flag:unread"
-                                     "AND m:/gastove@gmail.com/INBOX"
-                                     "AND date:today..now"
-                                     "OR flag:unread"
-                                     "AND m:/ross@urbanairship.com/INBOX"
-                                     "AND date:today..now")
-                                   " ") "Today's Unreads" ?u))
 
-  ;; Switch accounts
-  (defvar my-mu4e-account-alist
-    '(("gastove@gmail.com"
-       (mu4e-drafts-folder "/gastove@gmail.com/[Gmail].Drafts")
-       (mu4e-sent-folder   "/gastove@gmail.com/[Gmail].Sent Mail")
-       (user-mail-address "gastove@gmail.com"))
-      ("ross@urbanairship.com"
-       (mu4e-drafts-folder "/ross@urbanairship.com/[Gmail].Drafts")
-       (mu4e-sent-folder   "/ross@urbanairship.com/[Gmail].Sent Mail")
-       (user-mail-address "ross@urbanairship.com"))))
+    ;; configuration for sending mail
+    (setq message-send-mail-function
+          ;; Send via postfix
+          'sendmail-send-it
 
-  (defun my-mu4e-set-account ()
-    "Set the account for composing a message."
-    (let* ((account
-            (if mu4e-compose-parent-message
-                (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
-                  (string-match "/\\(.*?\\)/" maildir)
-                  (match-string 1 maildir))
-              (completing-read (format "Compose with account: (%s) "
-                                       (mapconcat #'(lambda (var) (car var))
-                                                  my-mu4e-account-alist "/"))
-                               (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
-                               nil t nil nil (caar my-mu4e-account-alist))))
-           (account-vars (cdr (assoc account my-mu4e-account-alist))))
-      (if account-vars
-          (mapc #'(lambda (var)
-                    (set (car var) (cadr var)))
-                account-vars)
-        (error "No email account found"))))
+          ;; By default, the gnus composer (which mu4e uses also) doesn't correctly
+          ;; write FROM headers. Let's fix that. (Required to correctly dispatch to
+          ;; multiple sending accounts with postfix.)
+          mail-specify-envelope-from t
+          mail-envelope-from 'header)
 
-  (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
+    ;; Message Composition settings
+    (add-hook 'mu4e-compose-mode-hook
+              (lambda ()
+                (auto-fill-mode -1)
+                (whitespace-mode -1)))
+
+    ;; The mu4e interface
+    ;; Single-character shortcuts
+    (setq mu4e-maildir-shortcuts
+          '(("/gastove@gmail.com/INBOX"               . ?i)
+            ("/gastove@gmail.com/[Gmail].Important"   . ?I)
+            ("/gastove@gmail.com/[Gmail].Sent Mail"   . ?s)))
+
+
+    ;; Tweak bookmarked queries
+    (add-to-list 'mu4e-bookmarks `(,(string-join
+                                     '("flag:unread"
+                                       "AND date:today..now"
+                                       "NOT maildir:/ross@urbanairship.com/Githubs"
+                                       "NOT maildir:'/ross@urbanairship.com/Sales Deals'"
+                                       "AND m:/ross@urbanairship.com/INBOX")
+                                     " ")
+                                   "Today's work unreads" ?i))
+    (add-to-list 'mu4e-bookmarks `(,(string-join
+                                     '("flag:unread"
+                                       "AND m:/gastove@gmail.com/INBOX"
+                                       "AND date:today..now")
+                                     " ") "Today's Personal Unreads" ?h))
+    (add-to-list 'mu4e-bookmarks `(,(string-join
+                                     '("flag:unread"
+                                       "AND m:/gastove@gmail.com/INBOX"
+                                       "AND date:today..now"
+                                       "OR flag:unread"
+                                       "AND m:/ross@urbanairship.com/INBOX"
+                                       "AND date:today..now")
+                                     " ") "Today's Unreads" ?u))
+
+    ;; Switch accounts
+    (defvar my-mu4e-account-alist
+      '(("gastove@gmail.com"
+         (mu4e-drafts-folder "/gastove@gmail.com/[Gmail].Drafts")
+         (mu4e-sent-folder   "/gastove@gmail.com/[Gmail].Sent Mail")
+         (user-mail-address "gastove@gmail.com"))
+        ("ross@urbanairship.com"
+         (mu4e-drafts-folder "/ross@urbanairship.com/[Gmail].Drafts")
+         (mu4e-sent-folder   "/ross@urbanairship.com/[Gmail].Sent Mail")
+         (user-mail-address "ross@urbanairship.com"))))
+
+    (defun my-mu4e-set-account ()
+      "Set the account for composing a message."
+      (let* ((account
+              (if mu4e-compose-parent-message
+                  (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
+                    (string-match "/\\(.*?\\)/" maildir)
+                    (match-string 1 maildir))
+                (completing-read (format "Compose with account: (%s) "
+                                         (mapconcat #'(lambda (var) (car var))
+                                                    my-mu4e-account-alist "/"))
+                                 (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
+                                 nil t nil nil (caar my-mu4e-account-alist))))
+             (account-vars (cdr (assoc account my-mu4e-account-alist))))
+        (if account-vars
+            (mapc #'(lambda (var)
+                      (set (car var) (cadr var)))
+                  account-vars)
+          (error "No email account found"))))
+
+    (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
 #+END_SRC
 
 *** Flycheck
@@ -828,9 +839,9 @@ YAY CUSTOM CHECKERS oh fucking boy
 *** Pandoc Mode
 A handy little utility for interacting with Pandoc.
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'markdown-mode-hook 'pandoc-mode)
-  (add-hook 'org-mode-hook 'pandoc-mode)
-  (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
+  ;; (add-hook 'markdown-mode-hook 'pandoc-mode)
+  ;; (add-hook 'org-mode-hook 'pandoc-mode)
+  ;; (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
 #+END_SRC
 *** Flip Tables
 #+BEGIN_SRC emacs-lisp
@@ -877,21 +888,25 @@ A handy little utility for interacting with Pandoc.
 
 *** Sauron
 #+BEGIN_SRC emacs-lisp
-(require 'sauron)
-;; 1: On OSX, there's no dbus, so don't try to load it.
-;; 2: On Ubuntu, there _is_ dbus, so use it to get mu new mail updates from cron
-(if (eq system-type 'darwin)
-    (setq sauron-modules '(sauron-jabber sauron-erc sauron-org sauron-twittering sauron-notifications))
-  (setq sauron-dbus-cookie 1))
+  (require 'sauron)
+  ;; 1: On OSX, there's no dbus, so don't try to load it.
+  ;; 2: On Ubuntu, there _is_ dbus, so use it to get mu new mail updates from cron
+  (if (eq system-type 'darwin)
+      (setq sauron-modules '(sauron-jabber sauron-erc sauron-org sauron-twittering sauron-notifications))
+    (setq sauron-dbus-cookie 1))
 
-(setq sauron-separate-frame nil
-      sauron-nick-insensitivity 300)
+  (setq sauron-separate-frame nil
+        sauron-nick-insensitivity 300)
 
-(add-hook 'sauron-event-block-functions
-          (lambda (origin prio msg &optional props)
-            (and
-             (eq 'twittering origin)
-             (string-match "^[[:digit:]]* new tweets" msg))))
+  (add-hook 'sauron-event-block-functions
+            (lambda (origin prio msg &optional props)
+              (and
+               (eq 'twittering origin)
+               (string-match "^[[:digit:]]* new tweets" msg))))
+
+  ;; Turn on sauron on emacs start
+  (sauron-start-hidden)
+  (define-key prelude-mode-map (kbd "C-M-?") 'sauron-toggle-hide-show)
 #+END_SRC
 
 *** Editorconfig
@@ -1006,63 +1021,9 @@ Assumes you're on a Mac, and have Marked.app installed.
 
 * Work
 #+BEGIN_SRC emacs-lisp
-  ;;; work.el -- All my work configs in one place.
-
-  ;;; Code:
-  ;; Work IRC
-  (defun start-irc-work ()
-    "Connect to the UA IRC Server"
-    (interactive)
-    (add-to-list 'erc-autojoin-channels-alist '("dev.urbanairship.com" "#ops"))
-    ;; (load "~/.ercpass")
-    (erc-tls :server "dev.urbanairship.com"
-             :port 6697
-             :nick erc-nick))
-
-  ;;; LookML
-  (add-to-list 'auto-mode-alist '("\\.lookml$" . yaml-mode))
-
-  ;;; Work SQL Functions
-  ;; Generate a list of DBs I connect to commonly
-  (when (file-exists-p (expand-file-name "~/.emacs-dbs"))
-    (load "~/.emacs-dbs")
-    (setq sql-connection-alist
-          '((yavin
-             (sql-product 'postgres)
-             (sql-server yavin-server)
-             (sql-user yavin-user)
-             (sql-password yavin-password)
-             (sql-database "yavin"))
-            (wildwood
-             (sql-product 'postgres)
-             (sql-server wildwood-server)
-             (sql-user wildwood-user)
-             (sql-port wildwood-port)
-             (sql-database "wildwood")
-             (sql-password wildwood-password)))))
-
-  (defun sql-connect-preset (name)
-    "Connect to a predefined SQL connection listed in `sql-connection-alist'"
-    (eval `(let ,(cdr (assoc name sql-connection-alist))
-             (flet ((sql-get-login (&rest what)))
-               (sql-product-interactive sql-product)))))
-
-  ;; Function to load a DB based on its short name
-  (defun sql-connect-preset-by-name (name)
-    "Connect to a DB by entering it's short name"
-    (interactive "sDB Name: ")
-    (sql-connect-preset 'name))
-
-  (defun sql-yavin ()
-    (interactive)
-    (sql-connect-preset 'yavin))
-
-  (defun sql-wildwood ()
-    (interactive)
-    (let ((default-directory "/ssh:wildwood:"))
-      (sql-connect-preset 'wildwood)))
-
-  (global-set-key (kbd "M-s q") 'sql-connect-preset-by-name) ; Connect to a db preset by nameq
+  (let ((work-configs (expand-file-name ".work.el" (getenv "HOME"))))
+   (when (file-exists-p work-configs)
+     (load-file work-configs)))
 #+END_SRC
 
 #+RESULTS:
