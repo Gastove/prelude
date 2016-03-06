@@ -245,16 +245,17 @@ him yet :P
 
 ** Clojure
 #+BEGIN_SRC emacs-lisp
-;;; Clojure
-;; Enable refactoring support
-(require 'clj-refactor)
-(add-hook 'clojure-mode-hook
-          (lambda ()
-            (clj-refactor-mode 1)
-            (add-hook 'cider-connected-hook #'cljr-update-artifact-cache)
-            (add-hook 'cider-connected-hook #'cljr-warm-ast-cache)
-            (cljr-add-keybindings-with-prefix "s-r")))
+  ;;; Clojure
+  ;; Enable refactoring support
+  (require 'clj-refactor)
+  (add-hook 'clojure-mode-hook
+            (lambda ()
+              (clj-refactor-mode 1)
+              (add-hook 'cider-connected-hook #'cljr-update-artifact-cache)
+              (add-hook 'cider-connected-hook #'cljr-warm-ast-cache)
+              (cljr-add-keybindings-with-prefix "s-r")))
 
+  (setq cider-repl-display-help-banner nil)
 #+END_SRC
 
 ** Scala
