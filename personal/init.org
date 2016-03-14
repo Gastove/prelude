@@ -744,6 +744,12 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
                                      "AND m:/ross@urbanairship.com/INBOX"
                                      "AND date:today..now")
                                    " ") "Today's Unreads" ?u))
+  (add-to-list 'mu4e-bookmarks `(,(string-join
+                                   '("m:/gastove@gmail.com/INBOX"
+                                     "AND date:10d..now"
+                                     "or m:/ross@urbanairship.com/INBOX"
+                                     "AND date:10d..now")
+                                   " ") "Working Mail" ?w))
 
   ;; Switch accounts
   (defvar my-mu4e-account-alist
