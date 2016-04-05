@@ -275,7 +275,9 @@ him yet :P
     (whitespace-mode -1)
     (abbrev-mode -1)
     (turn-on-auto-fill)
-    (emoji-cheat-sheet-plus-display-mode))
+    ;; I do not grok why or how, but this jerk is fucking up org capture:
+    ;; (emoji-cheat-sheet-plus-display-mode)
+    )
 
   ;; Don't clean up whitespace in markdown mode only
   (add-hook 'markdown-mode-hook
@@ -587,14 +589,19 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
     ;; org-mime for composing emails
     (require 'org-mime)
 
-  ;; org-capture
+  ;;; org-capture
   ;; Keyboard Shortcut
   (global-set-key (kbd "C-c c") 'org-capture)
+
+  ;; default notes file
+  (setq org-default-notes-file "~/Dropbox/org-docs/cotidienne.org")
 
   ;; Templates
   (setq org-capture-templates
         '(("t" "Todo" entry (file+headline "" "General To-Dos")
-           "** TODO %?\n %i\n %A\n")))
+           "** TODO %?\n %i\n %A\n")
+          ("e" "Email" entry (file+headline "" "General To-Dos") "** email")
+          ("g" "Log" entry (file+headline "" "Log") "** email%?\n %l")))
 #+END_SRC
 
 #+RESULTS:
