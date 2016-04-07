@@ -599,6 +599,8 @@ Magit has a long warning it shows these days; I've seen it. Turn it off.
   ;; Templates
   (setq org-capture-templates
         `(("t" "Todo" entry (file+headline "" "General To-Dos")
+           "** TODO %?\n")
+          ("f" "File-Todo" entry (file+headline "" "General To-Dos")
            "** TODO %?\n %i\n %A\n")
           ("e" "Email" entry (file+headline "" "General To-Dos")
            ,(string-join '("** TODO Reply to %:from re:%?"
