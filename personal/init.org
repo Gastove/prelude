@@ -204,6 +204,10 @@ This approach is... too much. Arg.
   ;; (setq split-height-threshold nil)
 #+END_SRC
 
+Fuck scrollbars, tho:
+#+BEGIN_SRC emacs-lisp
+  (scroll-bar-mode -1)
+#+END_SRC
 *** Beacon
 Help me find my place by flaring the beacon when I multi-task back to Emacs.
 
