@@ -113,8 +113,7 @@ When emacs loads, start the emacs server so clients can connect.
 #+END_SRC
 *** Fonts
 
-***
-Unicode fonts -- because they are Very Good.
+*** Unicode fonts -- because they are Very Good.
 #+BEGIN_SRC emacs-lisp
   (unicode-fonts-setup)
 #+END_SRC
@@ -239,14 +238,19 @@ Malabar Mode... is like two thirds of a pretty nice Java integration for
 Emacs. The author /claims/ to be working on a v2. Not... sure how that's going for
 him yet :P
 #+BEGIN_SRC emacs-lisp
-;; (require 'cedet)
-;; (require 'semantic)
-;; (load "semantic/loaddefs.el")
-;; (semantic-mode 1);;
-;; (require 'malabar-mode)
-;; (add-to-list 'auto-mode-alist '("\\.java\\'" . malabar-mode))
+  ;; (require 'cedet)
+  ;; (require 'semantic)
+  ;; (load "semantic/loaddefs.el")
+  ;; (semantic-mode 1)
+  ;; (require 'malabar-mode)
+  ;; (add-to-list 'auto-mode-alist '("\\.java\\'" . malabar-mode))
 #+END_SRC
 
+** JDEE
+In a fit of desperation, let's try JDEE for java:
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.java\\'" . jdee-mode))
+#+END_SRC
 ** Clojure
 #+BEGIN_SRC emacs-lisp
   ;;; Clojure
