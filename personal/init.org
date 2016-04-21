@@ -47,6 +47,7 @@ Pretty neat, hey?
                               helm-ag
                               jabber
                               jade-mode
+                              jdee
                               jedi
                               malabar-mode
                               mu4e-maildirs-extension
@@ -362,6 +363,8 @@ In a fit of desperation, let's try JDEE for java:
    "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
 
   (elpy-enable)
+  (setq python-fill-docstring-style 'django)
+
   ;; Enable virtualenvwrapper.el
   ;; (venv-initialize-interactive-shells)
   ;; (setq venv-location "~/.python_virtualenvs/")
