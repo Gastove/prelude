@@ -252,6 +252,17 @@ In a fit of desperation, let's try JDEE for java:
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.java\\'" . jdee-mode))
 #+END_SRC
+
+** PureScript
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.purs\\'" . purescript-mode))
+  (add-hook 'purescript-mode-hook 'turn-on-purescript-indentation)
+  (add-hook 'purescript-mode-hook
+            (lambda ()
+              (push '("->" . ?→) prettify-symbols-alist)
+              (push '("=>" . ?⇒) prettify-symbols-alist)
+              ))
+#+END_SRC
 ** Clojure
 #+BEGIN_SRC emacs-lisp
   ;;; Clojure
