@@ -47,7 +47,6 @@ Pretty neat, hey?
                               helm-ag
                               jabber
                               jade-mode
-                              jdee
                               jedi
                               malabar-mode
                               mu4e-maildirs-extension
@@ -59,6 +58,7 @@ Pretty neat, hey?
                               pcre2el
                               persp-projectile
                               perspective
+                              purescript-mode
                               protobuf-mode
                               rich-minority
                               sauron
@@ -248,8 +248,11 @@ him yet :P
 #+END_SRC
 
 ** JDEE
+<2016-04-23 Sat> -- This is yet another half-baked, archaic Java mode. Would
+love for it to be a good idea; super not convinced it is.
+
 In a fit of desperation, let's try JDEE for java:
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :eval never
   (add-to-list 'auto-mode-alist '("\\.java\\'" . jdee-mode))
 #+END_SRC
 ** Clojure
@@ -338,13 +341,13 @@ In a fit of desperation, let's try JDEE for java:
          :error-patterns
          ((error line-start (1+ nonl) ": line " line ", col " column ", " (message) line-end))
          :modes (web-mode))))
+  ;; Disable this for now -- need to figure out a way better
+  ;; (flycheck-add-mode 'javascript-eslint 'web-mode) ;
+  ;; (add-hook 'web-mode-hook (lambda ()
+  ;;                            (tern-mode t)
+  ;;                            (subword-mode)))
 
-  (flycheck-add-mode 'javascript-eslint 'web-mode)
-  (add-hook 'web-mode-hook (lambda ()
-                             (tern-mode t)
-                             (subword-mode)))
-
-  (add-to-list 'company-backends 'company-tern)
+  ;; (add-to-list 'company-backends 'company-tern)
 #+END_SRC
 
 ** Python
